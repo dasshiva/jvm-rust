@@ -6,7 +6,7 @@ impl ClassFile {
   pub fn new(file: &str) {
     let buf = match fs::read(file) {
       Ok(res) => res,
-      Err(..) => panic!()
+      Err(..) => panic!("File {file} not found")
     };
   }
 }
