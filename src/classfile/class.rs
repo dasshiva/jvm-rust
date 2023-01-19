@@ -45,16 +45,26 @@ impl ClassFile {
       panic!("Invalid file magic")
     }
    
+    let _min_ver = read_u2(&mut cursor);
+    let _max_ver = read_u2(&mut cursor);
+    let cpool = CPool::new(&mut cursor);
+    let  _flags = read_u2(&mut cursor);
+    let this_class = read_u2(&mut cursor);
+    let super_class = read_u2(&mut cursor);
+    let _inters_count = read_u2(&mut cursor);
+    let _flds_count = read_u2(&mut cursor);
+    let mets = Methods::new(&mut cursor, &cpool);
+    
     ClassFile {
-      _min_ver: read_u2(&mut cursor),
-      _max_ver: read_u2(&mut cursor),
-      cpool: CPool::new(&mut cursor),
-      _flags: read_u2(&mut cursor),
-      this_class: read_u2(&mut cursor),
-      super_class: read_u2(&mut cursor),
-      _inters_count: read_u2(&mut cursor),
-      _flds_count: read_u2(&mut cursor),
-      mets: Methods::new(&mut cursor)
+      _min_ver,
+      _max_ver,
+      cpool,
+      _flags,
+      this_class,
+      super_class,
+      _inters_count,
+      _flds_count,
+      mets
     }
   }
 }
