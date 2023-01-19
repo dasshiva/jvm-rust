@@ -7,7 +7,7 @@ pub struct CPool {
 }
 
 impl CPool {
-  pub(crate) fn new(src: &mut Cursor<Vec<u8>>) -> Self {
+  pub fn new(src: &mut Cursor<Vec<u8>>) -> Self {
     let size = read_u2(src);
     let mut pool: Vec<Elem> = Vec::with_capacity((size - 1) as usize);
     for i in 0..size-1 {

@@ -1,6 +1,7 @@
 use std::fs;
 use std::io::*;
 use crate::classfile::cpool::CPool;
+use crate::classfile::mets::Methods;
 
 pub struct ClassFile {
   _min_ver: u16,
@@ -12,7 +13,7 @@ pub struct ClassFile {
   _inters_count: u16,
   //_inters: u16
   _flds_count: u16,
-  
+  pub mets: Methods
 }
 
 pub(crate) fn read_u4(src: &mut Cursor<Vec<u8>>) -> u32 {
@@ -53,7 +54,7 @@ impl ClassFile {
       super_class: read_u2(&mut cursor),
       _inters_count: read_u2(&mut cursor),
       _flds_count: read_u2(&mut cursor),
-      
+      mets: Methods::new(&mut cursor)
     }
   }
 }
