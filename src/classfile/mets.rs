@@ -20,12 +20,24 @@ impl Methods {
       methods
     }
   }
+  
+  pub fn find(&self, name: &str, desc: &str) -> &MetInfo {
+    for i in 0..self.size as usize {
+      if self.methods[i].name == name {
+        if self.methods[i].desc == desc {
+          return &self.methods[i];
+        }
+      }
+    }
+    
+    panic!("Method {name} with signature {desc} not found ")
+  }
 }
 
 pub struct MetInfo {
   _flags: u16,
-  name: String,
-  desc: String,
+  pub name: String,
+  pub desc: String,
   attrs: Vec<Attrs>
 }
 

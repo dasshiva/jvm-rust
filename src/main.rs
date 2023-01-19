@@ -14,5 +14,6 @@ fn main() {
       println!("panic occurred");
     }
   }));
-  ClassFile::new("Hello.class");
+  let file = ClassFile::new("Hello.class");
+  let main = file.mets.find("main", "([Ljava/lang/String;)V");
 }

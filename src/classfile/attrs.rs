@@ -4,6 +4,7 @@ use crate::classfile::cpool::*;
 
 pub enum Attrs {
   CodeAttr(Code),
+  Source(String)
 }
 
 impl Attrs {
@@ -15,6 +16,20 @@ impl Attrs {
       match idx.as_str() {
         "Code" => attrs.push(Attrs::CodeAttr(Code::new(src, pool))),
         _ => panic!("Unrecognised method attribute")
+      }
+    }
+    attrs
+  }
+  
+  pub fn cl_attrs(src: &mut Cursor<Vec<u8>>, pool: &CPool) -> Vec<Attrs> {
+    let size = read_u2(src);
+    let mut attrs: Vec<Attrs> = Vec::with_capacity(size as usize);
+    for i in 0..size {
+      let idx = pool.get_utf8(read_u2(src));
+      read_u4(src);
+      match idx.as_str() {
+        "SourceFile" => attrs.push(Attrs::Source(pool.get_utf8(read_u2(src)))),
+        _ => panic!("Unrecognised class attribute")
       }
     }
     attrs

@@ -2,18 +2,21 @@ use std::fs;
 use std::io::*;
 use crate::classfile::cpool::CPool;
 use crate::classfile::mets::Methods;
+use crate::classfile::attrs::Attrs;
 
 pub struct ClassFile {
   _min_ver: u16,
   _max_ver: u16,
   pub cpool: CPool,
   _flags : u16,
-  this_class: u16,
-  super_class: u16,
+  pub this_class: u16,
+  pub super_class: u16,
   _inters_count: u16,
   //_inters: u16
   _flds_count: u16,
-  pub mets: Methods
+  // _flds: 
+  pub mets: Methods,
+  pub attrs: Vec<Attrs>
 }
 
 pub(crate) fn read_u4(src: &mut Cursor<Vec<u8>>) -> u32 {
@@ -54,7 +57,7 @@ impl ClassFile {
     let _inters_count = read_u2(&mut cursor);
     let _flds_count = read_u2(&mut cursor);
     let mets = Methods::new(&mut cursor, &cpool);
-    
+    let attrs = Attrs::cl_attrs(&mut cursor, &cpool);
     ClassFile {
       _min_ver,
       _max_ver,
@@ -64,7 +67,8 @@ impl ClassFile {
       super_class,
       _inters_count,
       _flds_count,
-      mets
+      mets,
+      attrs
     }
   }
 }
