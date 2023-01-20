@@ -9,6 +9,7 @@ pub struct CPool {
 impl CPool {
   pub fn new(src: &mut Cursor<Vec<u8>>) -> Self {
     let size = read_u2(src);
+    log::info!("Size of constant pool - {size}");
     let mut pool: Vec<Elem> = Vec::with_capacity((size - 1) as usize);
     for i in 0..size-1 {
       let tag = read_u1(src);
@@ -55,6 +56,13 @@ impl CPool {
     match self.get(index) {
       Elem::Utf8(s) => s.clone(),
       _ => panic!("Index {index} is not a CONSTANT_Utf8 element")
+    }
+  }
+  
+  pub fn get_inner_utf8(&self, index: u16) -> String {
+    match self.get(index) {
+      Elem::Class(i) | Elem::Str(i) => self.get_utf8(*i),
+      _ => panic!("Not one content element")
     }
   }
 }
