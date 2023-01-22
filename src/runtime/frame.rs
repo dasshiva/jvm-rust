@@ -3,6 +3,12 @@ pub struct Frame {
   lvarray: Vec<Types>
 }
 
+impl Frame {
+  pub fn new(desc: &str, stack: u16) -> Self {
+    
+  }
+}
+
 struct Stack {
   size: u16,
   top: u16,

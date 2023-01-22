@@ -19,5 +19,5 @@ fn main() {
   }));
   
   let file = ClassFile::new("Hello.class");
-  let main = file.mets.find("main", "([Ljava/lang/String;)V");
+  let main = file.mets.find("add", "(II)V");
 }
