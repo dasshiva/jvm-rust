@@ -38,9 +38,9 @@ impl Attrs {
 
 // TODO: Implement exception table
 pub struct Code {
-  stack: u16,
-  locals: u16,
-  code: Vec<u8>,
+  pub stack: u16,
+  pub locals: u16,
+  pub code: Vec<u8>,
   _exc_tab: u16,
   _attrs_count: u16
 }

@@ -40,7 +40,7 @@ pub struct MetInfo {
   _flags: u16,
   pub name: String,
   pub desc: String,
-  attrs: Vec<Attrs>
+  pub attrs: Vec<Attrs>
 }
 
 impl MetInfo {
