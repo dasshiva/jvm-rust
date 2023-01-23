@@ -1,5 +1,6 @@
 public class Hello {
 	public static void add() {
-		int a = 89 + 100;
+		int b = 90;
+		int a = 89 + b;
 	}
 }
