@@ -9,7 +9,7 @@ pub struct ClassFile {
   _min_ver: u16,
   _max_ver: u16,
   pub cpool: CPool,
-  _flags : u16,
+  pub flags : u16,
   pub this_class: u16,
   pub super_class: u16,
   _inters_count: u16,
@@ -54,7 +54,7 @@ impl ClassFile {
     info!("Class file version {_max_ver}.{_min_ver}");
     
     let cpool = CPool::new(&mut cursor);
-    let  _flags = read_u2(&mut cursor);
+    let  flags = read_u2(&mut cursor);
     
     let this_class = read_u2(&mut cursor);
     info!("Class - {}", cpool.get_inner_utf8(this_class));
@@ -69,7 +69,7 @@ impl ClassFile {
       _min_ver,
       _max_ver,
       cpool,
-      _flags,
+      flags,
       this_class,
       super_class,
       _inters_count,

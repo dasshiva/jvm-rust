@@ -37,6 +37,7 @@ impl Attrs {
 }
 
 // TODO: Implement exception table
+#[derive(Clone)]
 pub struct Code {
   pub stack: u16,
   pub locals: u16,

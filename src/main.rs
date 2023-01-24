@@ -3,6 +3,7 @@ mod runtime;
 mod logger;
 use classfile::class::ClassFile;
 use runtime::exec;
+use runtime::class::Class;
 use std::panic;
 extern crate log;
 
@@ -17,7 +18,7 @@ fn main() {
     }
   }));
   
-  let file = ClassFile::new("Hello.class");
-  let main = file.mets.find("add", "()V");
-  exec::run(&main, &file.cpool);
+  let class = Class::new(ClassFile::new("Hello.class"));
+  let main = class.find("add", "()V");
+  exec::run(&main, &class.cpool);
 }
