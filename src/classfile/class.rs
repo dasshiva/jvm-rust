@@ -15,9 +15,9 @@ pub struct ClassFile {
   _inters_count: u16,
   //_inters: u16
   _flds_count: u16,
-  // _flds: 
+  //flds: 
   pub mets: Methods,
-  pub attrs: Vec<Attrs>
+  //pub attrs: Vec<Attrs>
 }
 
 pub(crate) fn read_u4(src: &mut Cursor<Vec<u8>>) -> u32 {
@@ -39,11 +39,11 @@ pub(crate) fn read_u1(src: &mut Cursor<Vec<u8>>) -> u8 {
 }
 
 impl ClassFile {
-  pub fn new(file: &str) -> Self {
+  pub fn new(file: &str) -> Option<Self> {
      info!("Reading class file {file}");
     let buf = match fs::read(file) {
       Ok(res) => res,
-      Err(..) => panic!("File {file} not found")
+      Err(..) => return None
     };
     let mut cursor = Cursor::new(buf);
     if read_u4(&mut cursor) != 0xCAFEBABE {
@@ -64,8 +64,8 @@ impl ClassFile {
     let _inters_count = read_u2(&mut cursor);
     let _flds_count = read_u2(&mut cursor);
     let mets = Methods::new(&mut cursor, &cpool);
-    let attrs = Attrs::cl_attrs(&mut cursor, &cpool);
-    ClassFile {
+    //let attrs = Attrs::cl_attrs(&mut cursor, &cpool);
+    Some(ClassFile {
       _min_ver,
       _max_ver,
       cpool,
@@ -75,7 +75,7 @@ impl ClassFile {
       _inters_count,
       _flds_count,
       mets,
-      attrs
-    }
+     // attrs
+    })
   }
 }

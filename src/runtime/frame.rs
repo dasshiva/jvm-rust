@@ -1,7 +1,8 @@
 use crate::runtime::class::Method;
+use crate::runtime::r#ref::Reference;
 pub struct Frame {
     pub stack: Stack,
-    pub lvarray: Vec<Types>,
+    pub lvarray: Vec<Types>
 }
 
 impl Frame {
@@ -20,7 +21,9 @@ impl Frame {
                 _ => unreachable!(),
             }
         }
-
+        for i in lvarray.len()..(method.code.locals as usize) {
+          lvarray.push(Types::Empty);
+        }
         Self {
             stack: Stack::new(method.code.stack),
             lvarray,
@@ -31,7 +34,7 @@ impl Frame {
 pub struct Stack {
     size: u16,
     top: u16,
-    buf: Vec<Types>,
+    buf: Vec<Types>
 }
 
 impl Stack {
@@ -65,4 +68,6 @@ pub enum Types {
     Long(i64),
     Float(f32),
     Double(f64),
+    Ref(Reference),
+    Empty
 }

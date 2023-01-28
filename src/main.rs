@@ -6,6 +6,10 @@ use runtime::exec;
 use runtime::class::Class;
 use std::panic;
 extern crate log;
+#[macro_use]
+extern crate lazy_static;
+extern crate owning_ref;
+use runtime::loader;
 
 fn main() {
   logger::init();
@@ -18,7 +22,10 @@ fn main() {
     }
   }));
   
-  let class = Class::new(ClassFile::new("Hello.class"));
+  let class = match loader::get_class_by_name("Hello.class") {
+    Some(s) => s,
+    None => panic!("Main class not found")
+  };
   let main = class.find("add", "()V");
   exec::run(&main, &class.cpool);
 }

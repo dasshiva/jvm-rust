@@ -49,8 +49,8 @@ pub struct Class {
   pub name: String,
   pub parent: String,
   pub cpool: cpool::CPool,
-  vtable: Vec<Method>,
-  attrs: Vec<attrs::Attrs>
+  pub vtable: Vec<Method>,
+  //attrs: Vec<attrs::Attrs>
 }
 
 impl Class {
@@ -68,14 +68,13 @@ impl Class {
       }
       i += 1;
     }
-    dbg!(vtable.len());
-    let attrs = cf.attrs;
+    //let attrs = cf.attrs;
     Self {
       name,
       parent,
       cpool: cf.cpool,
       vtable,
-      attrs
+      //attrs
     }
   }
   
