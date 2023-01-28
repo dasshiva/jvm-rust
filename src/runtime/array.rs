@@ -1,4 +1,4 @@
-pub trait Storable: Sync {}
+pub trait Storable: Sync + Send {}
 pub struct Array {
   atype: ArrayType,
   len: u32,

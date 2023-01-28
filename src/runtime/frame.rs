@@ -1,5 +1,7 @@
 use crate::runtime::class::Method;
 use crate::runtime::r#ref::Reference;
+
+use super::heap::HeapRef;
 pub struct Frame {
     pub stack: Stack,
     pub lvarray: Vec<Types>
@@ -68,6 +70,6 @@ pub enum Types {
     Long(i64),
     Float(f32),
     Double(f64),
-    Ref(Reference),
+    Ref(&'static HeapRef),
     Empty
 }

@@ -1,22 +1,22 @@
-use crate::classfile::attrs::Attrs;
 use crate::classfile::attrs::*;
 use crate::classfile::cpool::CPool;
 use crate::runtime::frame::*;
 use crate::runtime::class::Method;
-use crate::runtime::r#ref::Reference;
 use crate::runtime::array::Array;
 
-pub fn run(method: &Method, pool: &CPool) {
+use super::heap::{HeapRef, self, Heap};
+
+pub fn run(method: &Method, pool: &CPool, heap: &mut Heap) {
     log::info!(
         "Starting method {} with signature {}",
         method.name,
         method.desc
     );
-    real_exec(&method.code, &mut Frame::new(method));
+    real_exec(&method.code, &mut Frame::new(method), heap);
     log::info!("Method finished execution successfully");
 }
 
-pub fn real_exec(s: &Code, frame: &mut Frame) {
+pub fn real_exec(s: &Code, frame: &mut Frame, heap: &mut Heap) {
     let mut pc = 0u16;
     while pc < s.code.len() as u16 {
         match s.code[pc as usize] {
@@ -153,8 +153,8 @@ pub fn real_exec(s: &Code, frame: &mut Frame) {
                  _ => panic!("newarray used but size is not an int")
               };
               match atype {
-                4 => frame.stack.push(Types::Ref(Reference::new_arr(Array::prim_new::<u8>(size as u32)))),
-                5 => frame.stack.push(Types::Ref(Reference::new_arr(Array::prim_new::<char>(size as u32)))),
+                4 => frame.stack.push(Types::Ref(heap.new_array(Array::prim_new::<u8>(size as u32)))),
+                5 => frame.stack.push(Types::Ref(heap.new_array(Array::prim_new::<char>(size as u32)))),
                 _ => panic!("Unknown array type")
               }
             }
